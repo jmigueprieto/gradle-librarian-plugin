@@ -1,0 +1,28 @@
+plugins {
+    id 'groovy-gradle-plugin'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+gradlePlugin {
+    plugins {
+        myPlugin {
+            id = 'librarian'
+            implementationClass = 'me.mprieto.librarian.LibrarianPlugin'
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}

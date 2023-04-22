@@ -1,6 +1,8 @@
 plugins {
     id 'java'
-    id 'librarian'
+    id 'groovy'
+    id 'groovy-gradle-plugin'
+    id 'idea'
 }
 
 group 'me.mprieto'
@@ -11,17 +13,36 @@ repositories {
 }
 
 dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation 'org.yaml:snakeyaml:2.0'
 
-
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
 }
 
 test {
     useJUnitPlatform()
 }
 
-task versionTest {
-//    println project.versions.common
-//    println project.commonVersion
+gradlePlugin {
+    plugins {
+        librarian {
+            id = 'librarian'
+            implementationClass = 'me.mprieto.librarian.LibrarianPlugin'
+        }
+    }
+}
+
+gradlePlugin {
+    plugins {
+        extraProps {
+            id = 'extraProps'
+            implementationClass = 'me.mprieto.librarian.ExtraPropsPlugin'
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
 }

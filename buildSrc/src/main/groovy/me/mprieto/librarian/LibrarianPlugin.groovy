@@ -1,22 +1,27 @@
 package me.mprieto.librarian
 
-import org.gradle.api.Project
 import org.gradle.api.Plugin
+import org.gradle.api.Project
+import org.gradle.api.initialization.Settings
 
-class Versions {
-    String common = '2.1.3'
-}
+import org.yaml.snakeyaml.Yaml
 
 class LibrarianPlugin implements Plugin<Project> {
 
     void apply(Project project) {
-        project.extensions.create("versions", Versions)
-        project.extensions.add("commonVersion", "1.2.3")
+        def yaml = new Yaml()
+        def inputStream = new FileInputStream(new File("project.yaml"))
+        def data = yaml.load(inputStream)
+        println data.projects
+        println data.builds
+        Settings settings = null
 
-//        project.task('hello') {
-//            doLast {
-//                println 'Hello from the Librarian Plugin'
-//            }
-//        }
+        settings.getRootProject().getChildren().forEach(p -> {
+
+            p.getProperties().put()
+
+        })
+        // Project path
+        // settings.includeBuild()
     }
 }

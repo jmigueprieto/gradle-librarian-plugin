@@ -1,0 +1,31 @@
+projects:
+  - admin:
+      # disabled: true
+      properties:
+        commonVersion: 1.2.3
+        protorepoVersion: 1.2.3
+        rpcClientsVersion: 1.2.3
+  - backend-services:
+      properties:
+        commonVersion: 1.2.3
+        protorepoVersion: 1.2.3
+        rpcClientsVersion: 1.2.3
+      projects:
+        - core-services:
+            properties:
+              commonVersion: 1.2.3
+              protorepoVersion: 1.2.3
+              rpcClientsVersion: 1.2.3
+            projects:
+              - rpc-core-server:
+                properties:
+                  commonVersion: 1.2.3
+                  protorepoVersion: 1.2.3
+                  rpcClientsVersion: 1.2.3
+builds:
+  - name: common
+    path: /path/to/common/
+    status: disabled
+  - name: protorepo
+    path: /path/to/protorepo/
+    status: disabled

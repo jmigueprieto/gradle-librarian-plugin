@@ -21,12 +21,12 @@ class ExtraPropsPlugin implements Plugin<Project> {
             return
         }
 
-        new FileInputStream(fileName).withCloseable { is ->
-            Map<Object, Object> extraDef = new Yaml().load(is)
-            setExtraProperties(project, extraDef)
+        Map<Object, Object> data = new FileInputStream(fileName).withCloseable { is ->
+             new Yaml().load(is) as Map<Object, Object>
         }
-    }
 
+        setExtraProperties(project, data)
+    }
 
     void setExtraProperties(Project project, entry) {
         entry.ext.each {

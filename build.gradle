@@ -27,7 +27,7 @@ test {
 
 gradlePlugin {
     plugins {
-        librarian {
+        includedBuilds {
             id = 'me.mprieto.librarian.included-builds'
             implementationClass = 'me.mprieto.librarian.IncludedBuildsPlugin'
         }
@@ -39,6 +39,15 @@ gradlePlugin {
         extraProps {
             id = 'me.mprieto.librarian.extra-props'
             implementationClass = 'me.mprieto.librarian.ExtraPropsPlugin'
+        }
+    }
+}
+
+gradlePlugin {
+    plugins {
+        enableBuilds {
+            id = 'me.mprieto.librarian.enable-builds'
+            implementationClass = 'me.mprieto.librarian.EnableBuildsPlugin'
         }
     }
 }

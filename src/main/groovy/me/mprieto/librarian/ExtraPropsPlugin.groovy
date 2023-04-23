@@ -33,23 +33,7 @@ class ExtraPropsPlugin implements Plugin<Project> {
         }
 
         project.subprojects.forEach(subproject -> {
-            setExtraProperties(subproject, merge(entry, entry.subprojects[subproject.name]))
+            setExtraProperties(subproject, entry.subprojects[subproject.name])
         })
-    }
-
-    def merge(parentEntry, entry) {
-        def merged = [ext: [:]]
-        parentEntry.ext.each {
-            merged.ext.put(it.key, it.value)
-        }
-
-        if (entry) {
-            entry.ext?.each {
-                merged.ext.put(it.key, it.value)
-            }
-            merged.subprojects = entry.subprojects
-        }
-
-        return merged
     }
 }

@@ -12,6 +12,7 @@ class ExtraPropsPlugin implements Plugin<Project> {
 
     void apply(Project project) {
         setExtraProperties(project, "extra-properties.yaml")
+        addExtraPropsTask(project)
     }
 
     void setExtraProperties(Project project, String fileName) {
@@ -29,11 +30,34 @@ class ExtraPropsPlugin implements Plugin<Project> {
 
     void setExtraProperties(Project project, entry) {
         entry.ext.each {
-            project.extensions.add(it.key as String, it.value)
+            logger.info("Adding prop ${it.key} ${it.value} to ${project.name}")
+            project.ext[it.key as String] = it.value
         }
 
         project.subprojects.forEach(subproject -> {
             setExtraProperties(subproject, entry.subprojects[subproject.name])
         })
+    }
+
+    void addExtraPropsTask(Project project) {
+        project.task('extraProps') {
+            doLast {
+                project.ext.properties
+                        .sort { a, b -> a.key <=> b.key }
+                        .each {
+                            def key = it.key as String
+                            if (key.startsWith('signing.') ||
+                                    key.startsWith('org.gradle')
+                                    || key.contains('password')
+                                    || key.contains('secret')
+                                    || key.contains('token')) {
+                                return
+                            }
+                            println("${it.key} ${it.value}")
+                        }
+            }
+        }
+
+        project.subprojects.each { addExtraPropsTask(it) }
     }
 }

@@ -28,8 +28,8 @@ test {
 gradlePlugin {
     plugins {
         librarian {
-            id = 'librarian'
-            implementationClass = 'me.mprieto.librarian.LibrarianPlugin'
+            id = 'me.mprieto.librarian.included-builds'
+            implementationClass = 'me.mprieto.librarian.IncludedBuildsPlugin'
         }
     }
 }
@@ -37,7 +37,7 @@ gradlePlugin {
 gradlePlugin {
     plugins {
         extraProps {
-            id = 'extraProps'
+            id = 'me.mprieto.librarian.extra-props'
             implementationClass = 'me.mprieto.librarian.ExtraPropsPlugin'
         }
     }

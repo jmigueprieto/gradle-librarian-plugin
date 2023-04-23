@@ -6,9 +6,9 @@ import org.gradle.api.logging.Logger
 import org.gradle.api.logging.Logging
 import org.yaml.snakeyaml.Yaml
 
-class LibrarianPlugin implements Plugin<Settings> {
+class IncludedBuildsPlugin implements Plugin<Settings> {
 
-    private Logger logger = Logging.getLogger(LibrarianPlugin.class)
+    private Logger logger = Logging.getLogger(IncludedBuildsPlugin.class)
 
     void apply(Settings settings) {
         includeBuilds(settings, "builds.yaml")

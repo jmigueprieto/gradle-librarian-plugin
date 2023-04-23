@@ -35,6 +35,8 @@ class ExtraPropsPlugin implements Plugin<Project> {
         }
 
         project.subprojects.forEach(subproject -> {
+            // Extra props specific for a subproject. But, keep in mind that
+            // subprojects can access extra properties on their parent projects.
             setExtraProperties(subproject, entry.subprojects[subproject.name])
         })
     }

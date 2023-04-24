@@ -35,7 +35,7 @@ class EnableBuildsPlugin implements Plugin<Project> {
             new Yaml().load(is) as Map<Object, Object>
         }
 
-        List<Map<String, Object>> builds = data.builds as List<Map<String, Object>>
+        List builds = data.builds as List
         def found = builds.find { it.name == buildName }
         if (found != null) {
             found.enabled = value

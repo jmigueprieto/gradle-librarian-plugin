@@ -14,18 +14,18 @@ class EnableBuildsPlugin implements Plugin<Project> {
     void addTasks(Project project, String fileName) {
         project.task('enableBuild') {
             doLast {
-                changeEnabledProperty(fileName, project.buildName as String, 'true')
+                changeEnabledProperty(fileName, project.buildName as String, true)
             }
         }
 
         project.task('disableBuild') {
             doLast {
-                changeEnabledProperty(fileName, project.buildName as String, 'false')
+                changeEnabledProperty(fileName, project.buildName as String, false)
             }
         }
     }
 
-    void changeEnabledProperty(String fileName, String buildName, String value) {
+    void changeEnabledProperty(String fileName, String buildName, Boolean value) {
         def file = new File(fileName)
         if (!file.exists()) {
             throw new RuntimeException("file $fileName not found")

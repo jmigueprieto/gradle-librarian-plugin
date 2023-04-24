@@ -24,7 +24,7 @@ class IncludedBuildsPlugin implements Plugin<Settings> {
             def yaml = new Yaml().load(is)
             def builds = yaml?.builds
             builds?.each { build ->
-                if (build.enabled != 'false') {
+                if (build.enabled == null || build.enabled) {
                     logger.info("Including build, name: '{}' - path: {}", build.name, build.path)
                     settings.includeBuild(build.path)
                 }

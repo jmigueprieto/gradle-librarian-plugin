@@ -6,12 +6,12 @@ import org.gradle.api.logging.Logger
 import org.gradle.api.logging.Logging
 import org.yaml.snakeyaml.Yaml
 
-class IncludedBuildsPlugin implements Plugin<Settings> {
+class SettingsPlugin implements Plugin<Settings> {
 
-    private Logger logger = Logging.getLogger(IncludedBuildsPlugin.class)
+    private Logger logger = Logging.getLogger(SettingsPlugin.class)
 
     void apply(Settings settings) {
-        includeBuilds(settings, "builds.yaml")
+        includeBuilds(settings, "gradle-settings.yaml")
     }
 
     void includeBuilds(Settings settings, String fileName) {

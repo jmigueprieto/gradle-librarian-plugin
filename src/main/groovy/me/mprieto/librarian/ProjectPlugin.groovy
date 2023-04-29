@@ -6,12 +6,12 @@ import org.gradle.api.logging.Logger
 import org.gradle.api.logging.Logging
 import org.yaml.snakeyaml.Yaml
 
-class ExtraPropsPlugin implements Plugin<Project> {
+class ProjectPlugin implements Plugin<Project> {
 
-    private Logger logger = Logging.getLogger(ExtraPropsPlugin.class)
+    private Logger logger = Logging.getLogger(ProjectPlugin.class)
 
     void apply(Project project) {
-        setExtraProperties(project, "extra-properties.yaml")
+        setExtraProperties(project, "gradle-properties.yaml")
         addExtraPropsTask(project)
     }
 

@@ -4,10 +4,11 @@ plugins {
     id 'groovy-gradle-plugin'
     id 'idea'
     id 'maven-publish'
+    id 'com.gradle.plugin-publish' version '1.2.0'
 }
 
 group 'me.mprieto'
-version '1.0-SNAPSHOT'
+version '0.0.1-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -28,27 +29,17 @@ test {
 
 gradlePlugin {
     plugins {
-        includedBuilds {
-            id = 'me.mprieto.librarian.included-builds'
-            implementationClass = 'me.mprieto.librarian.IncludedBuildsPlugin'
+        settingsPlugin {
+            id = 'me.mprieto.librarian.settings'
+            displayName = 'Librarian Settings Plugin'
+            description = 'A settings plugin that allows a developer to handle included builds via a configuration yaml'
+            implementationClass = 'me.mprieto.librarian.SettingsPlugin'
         }
-    }
-}
-
-gradlePlugin {
-    plugins {
-        extraProps {
-            id = 'me.mprieto.librarian.extra-props'
-            implementationClass = 'me.mprieto.librarian.ExtraPropsPlugin'
-        }
-    }
-}
-
-gradlePlugin {
-    plugins {
-        enableBuilds {
-            id = 'me.mprieto.librarian.enable-builds'
-            implementationClass = 'me.mprieto.librarian.EnableBuildsPlugin'
+        projectPlugin {
+            id = 'me.mprieto.librarian.project'
+            displayName = 'Librarian Project Plugin'
+            description = 'A project plugin that allows a developer to manage ext properties in an external yaml file and adds other convenient development tasks'
+            implementationClass = 'me.mprieto.librarian.ProjectPlugin'
         }
     }
 }

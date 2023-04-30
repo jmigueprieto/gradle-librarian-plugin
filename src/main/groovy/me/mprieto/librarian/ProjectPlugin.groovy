@@ -10,8 +10,11 @@ class ProjectPlugin implements Plugin<Project> {
 
     private Logger logger = Logging.getLogger(ProjectPlugin.class)
 
+    //TODO make this configurable?
+    private static String FILE_NAME = 'gradle-properties.yaml'
+
     void apply(Project project) {
-        setExtraProperties(project, "gradle-properties.yaml")
+        setExtraProperties(project, FILE_NAME)
         addExtraPropsTask(project)
     }
 
@@ -30,7 +33,7 @@ class ProjectPlugin implements Plugin<Project> {
 
     void setExtraProperties(Project project, entry) {
         entry.ext.each {
-            logger.info("Adding prop ${it.key} ${it.value} to ${project.name}")
+            logger.info('Adding prop {} : {} to {}', it.key, it.value, project.name)
             project.ext[it.key as String] = it.value
         }
 
@@ -48,6 +51,7 @@ class ProjectPlugin implements Plugin<Project> {
                         .sort { a, b -> a.key <=> b.key }
                         .each {
                             def key = it.key as String
+                            //TODO sensitive data shouldn't be shown or should be masked
                             if (key.startsWith('signing.') ||
                                     key.startsWith('org.gradle')
                                     || key.contains('password')

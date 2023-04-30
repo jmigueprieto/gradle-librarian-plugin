@@ -10,8 +10,11 @@ class SettingsPlugin implements Plugin<Settings> {
 
     private Logger logger = Logging.getLogger(SettingsPlugin.class)
 
+    //TODO make this configurable?
+    private static String FILE_NAME = 'gradle-settings.yaml'
+
     void apply(Settings settings) {
-        includeBuilds(settings, "gradle-settings.yaml")
+        includeBuilds(settings, FILE_NAME)
     }
 
     void includeBuilds(Settings settings, String fileName) {
@@ -25,7 +28,7 @@ class SettingsPlugin implements Plugin<Settings> {
             def builds = yaml?.builds
             builds?.each { build ->
                 if (build.enabled == null || build.enabled) {
-                    logger.info("Including build, name: '{}' - path: {}", build.name, build.path)
+                    logger.info('Including build, name: {} - path: {}', build.name, build.path)
                     settings.includeBuild(build.path)
                 }
             }

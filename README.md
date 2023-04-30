@@ -1,7 +1,7 @@
-# Gradle Librarian Plugin
+# Librarian 
 
-A set of Gradle plugins that try to make the development flow a bit smoother and the configuration easier in large 
-multi-module projects which use dependencies which are in active development and constantly changing.
+This project contains a set of Gradle plugins that try to make the development flow smoother and help in managing the 
+configuration of large multi-module projects that use dependencies which are in active development and frequently changing.
 
 ## Settings plugin
 
@@ -15,17 +15,16 @@ In the root of project you can have a `gradle-settings.yaml` like this:
 
 ```yaml
 builds:
-- name: My Library
-  path: /path/to/my-library
-  enabled: true
-- name: Another library
-  path: /path/to/another-library
-  enabled: false
+  - name: My Library
+    path: /path/to/my-library
+    enabled: true
+  - name: Another library
+    path: /path/to/another-library
+    enabled: false
 ```
 
-`enabled` is by default `true` and can be omitted but if you want gradle to resolve the dependency rather than using 
+`enabled` is by default `true` and can be omitted but if you want gradle to resolve the dependency rather than using
 the included build you can set it to `false`.
-
 
 # Project plugin
 
@@ -33,10 +32,11 @@ the included build you can set it to `false`.
 id: me.mprieto.librarian.project
 ```
 
-This Project Plugin is a Work In Progress. At the moment it gives you the ability to externalize the **ext props** 
+This plugin is a Work In Progress. At the moment it gives you the ability to externalize the **ext props**
 to a yaml file `gradle-properties.yaml`
 
 E.g.:
+
 ```yaml
 ext:
   myLibraryVersion: 1.2.3
@@ -56,26 +56,21 @@ Let's assume that in your `build.gradle` files you have dependencies declared li
 
 ```
 dependencies {
-    implementation 'me.mprieto:my-library:{myLibraryVersion}'
-    implementation 'me.mprieto:another-library:{anotherLibrary}'
+    implementation "me.mprieto:my-library:{myLibraryVersion}"
+    implementation "me.mprieto:another-library:{anotherLibrary}"
 }
 ```
 
-The root project may define these dependencies for all subprojects, but in some subprojects you may want to 
-override them or maybe you just want to provide a default version and let each subproject declare its dependencies. 
- 
+The root project may define these dependencies for all subprojects, but in some subprojects you may want to
+override them or maybe you just want to provide a default version and let each subproject declare its dependencies.
+
 You can obviously achieve this by simply using the `ext` block
 
 ```
 ext {
-    myLibraryVersion = 1.5.3
+    myLibraryVersion = '1.5.3'
 }
 ```
 
-but with this `yaml` file you get a centralized view of which version each project is using and it helps in keeping 
+but with this `yaml` file you get a centralized view of which version each project is using and it helps in keeping
 things a bit more tidy and avoid changing the `build.gradle` files if these properties are changing frequently.
-
-
-
-
-

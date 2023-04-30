@@ -27,18 +27,24 @@ test {
     useJUnitPlatform()
 }
 
+pluginBundle {
+    website = 'https://github.com/jmigueprieto/gradle-librarian-plugin'
+    vcsUrl = 'https://github.com/jmigueprieto/gradle-librarian-plugin.git'
+    tags = ['sharedLibraries', 'properties', 'builds']
+}
+
 gradlePlugin {
     plugins {
         settingsPlugin {
             id = 'me.mprieto.librarian.settings'
             displayName = 'Librarian Settings Plugin'
-            description = 'A settings plugin that allows a developer to handle included builds via a configuration yaml'
+            description = 'A settings plugin that allows devs to handle included builds via a configuration yaml'
             implementationClass = 'me.mprieto.librarian.SettingsPlugin'
         }
         projectPlugin {
             id = 'me.mprieto.librarian.project'
             displayName = 'Librarian Project Plugin'
-            description = 'A project plugin that allows a developer to manage ext properties in an external yaml file and adds other convenient development tasks'
+            description = 'A project plugin that allows dev to manage ext properties in an external yaml file and adds other convenient development tasks'
             implementationClass = 'me.mprieto.librarian.ProjectPlugin'
         }
     }

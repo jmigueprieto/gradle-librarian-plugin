@@ -8,7 +8,7 @@ plugins {
 }
 
 group 'me.mprieto'
-version '0.0.1'
+version '0.0.2'
 
 repositories {
     mavenCentral()
@@ -31,6 +31,11 @@ pluginBundle {
     website = 'https://github.com/jmigueprieto/gradle-librarian-plugin'
     vcsUrl = 'https://github.com/jmigueprieto/gradle-librarian-plugin.git'
     tags = ['sharedLibraries', 'properties', 'builds']
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 gradlePlugin {

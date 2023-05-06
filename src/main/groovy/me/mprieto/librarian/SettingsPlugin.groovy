@@ -14,17 +14,28 @@ class SettingsPlugin implements Plugin<Settings> {
     private static String FILE_NAME = 'gradle-settings.yaml'
 
     void apply(Settings settings) {
-        includeBuilds(settings, FILE_NAME)
+        readSettings(settings, FILE_NAME)
     }
 
-    void includeBuilds(Settings settings, String fileName) {
+    void readSettings(Settings settings, String fileName) {
         def file = new File(fileName)
         if (!file.exists()) {
+            settings.ext['librarianEnabled'] = false
             return
         }
 
+        settings.ext['librarianEnabled'] = true
         new FileInputStream(fileName).withCloseable { is ->
             def yaml = new Yaml().load(is)
+            def projects = yaml?.projects
+            projects?.each { project ->
+                if (project.enabled == null || project.enabled) {
+                    String name = project.name
+                    logger.info('Including project: {}', name)
+                    settings.include(name)
+                }
+            }
+
             def builds = yaml?.builds
             builds?.each { build ->
                 if (build.enabled == null || build.enabled) {

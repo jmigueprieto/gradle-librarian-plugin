@@ -25,7 +25,7 @@ class ProjectPlugin implements Plugin<Project> {
         }
 
         Map<Object, Object> data = new FileInputStream(fileName).withCloseable { is ->
-             new Yaml().load(is) as Map<Object, Object>
+            new Yaml().load(is) as Map<Object, Object>
         }
 
         setExtraProperties(project, data)
@@ -40,7 +40,9 @@ class ProjectPlugin implements Plugin<Project> {
         project.subprojects.forEach {
             // Extra props specific for a subproject. But, keep in mind that
             // subprojects can access extra properties on their parent projects.
-            setExtraProperties(it, entry.subprojects[it.name])
+            if (entry.subprojects && entry.subprojects[it.name]) {
+                setExtraProperties(it, entry.subprojects[it.name])
+            }
         }
     }
 
@@ -56,7 +58,8 @@ class ProjectPlugin implements Plugin<Project> {
                                     key.startsWith('org.gradle')
                                     || key.contains('password')
                                     || key.contains('secret')
-                                    || key.contains('token')) {
+                                    || key.contains('token')
+                                    || key.contains('key')) {
                                 return
                             }
                             println("${it.key} ${it.value}")
@@ -64,6 +67,10 @@ class ProjectPlugin implements Plugin<Project> {
             }
         }
 
-        project.subprojects.each { addExtraPropsTask(it) }
+        project.subprojects.each {
+            if (it.parent == project) {
+                addExtraPropsTask(it)
+            }
+        }
     }
 }

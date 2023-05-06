@@ -13,6 +13,8 @@ class SettingsPlugin implements Plugin<Settings> {
     //TODO make this configurable?
     private static String FILE_NAME = 'gradle-settings.yaml'
 
+    private static String FILE_SEPARATOR = System.getProperty("file.separator")
+
     void apply(Settings settings) {
         readSettings(settings, FILE_NAME)
     }
@@ -32,7 +34,11 @@ class SettingsPlugin implements Plugin<Settings> {
                 if (project.enabled == null || project.enabled) {
                     String name = project.name
                     logger.info('Including project: {}', name)
-                    settings.include(name)
+                    if (project.recursive) {
+                        includeRecursive(settings, name, [])
+                    } else {
+                        settings.include(name)
+                    }
                 }
             }
 
@@ -44,5 +50,19 @@ class SettingsPlugin implements Plugin<Settings> {
                 }
             }
         }
+    }
+
+    void includeRecursive(Settings settings, String name, List<String> parents) {
+        def projectFQN = (parents.empty ? '' : (parents.join(':') + ':')) + name
+        settings.include(projectFQN)
+
+        def dir = new File(projectFQN.replace(':', FILE_SEPARATOR))
+        dir.listFiles()
+                .findAll {
+                    it.isDirectory() && it.listFiles().find {it.name == 'build.gradle' } != null
+                }
+                .each {
+                    includeRecursive(settings, it.name, parents + name)
+                }
     }
 }
